@@ -27,7 +27,7 @@ public class homepage {
         panel.setLayout(null);
 
         JLabel welcome = new JLabel("WELCOME TO ATM");
-        welcome.setBounds(120, 100, 300, 50);
+        welcome.setBounds(120, 50, 300, 50);
         welcome.setFont(new Font("Arial", Font.BOLD, 28));
         panel.add(welcome);
 
@@ -49,11 +49,32 @@ public class homepage {
         pint.setBounds(200, 240, 175, 25);
         panel.add(pint);
 
+        JLabel loginMsg = new JLabel();
+        loginMsg.setBounds(100, 125, 300, 30);
+        panel.add(loginMsg);
+
+        JLabel loginMsg2 = new JLabel();
+        loginMsg2.setBounds(100, 150, 300, 30);
+        panel.add(loginMsg2);
+
         JButton sign_in = new JButton("SIGN IN");
+        sign_in.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                if (cardt.getText().trim().isEmpty() || pint.getText().trim().isEmpty()) {
+                   loginMsg.setText("Card number or PIN is incorrect/missing. If you do");
+                   loginMsg2.setText("not have an account please create one.");
+                } else {
+                    frame.setVisible(false);
+                    menu men = new menu();
+                    men.mainMenu();
+                }
+
+            }
+        });
         sign_in.setBounds(100, 300, 125, 30);
         panel.add(sign_in);
 
-        JButton cancel = new JButton("CANCEL");
+        JButton cancel = new JButton("CLEAR");
         cancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
 
@@ -65,7 +86,7 @@ public class homepage {
         cancel.setBounds(250, 300, 125, 30);
         panel.add(cancel);
 
-        JButton sign_up = new JButton("SIGN UP");
+        JButton sign_up = new JButton("CREATE ACCOUNT");
         sign_up.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 frame.setVisible(false);
