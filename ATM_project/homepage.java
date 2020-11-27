@@ -4,17 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 public class homepage extends JFrame implements ActionListener {
 
     JLabel welcome, card, pin;
     JButton sign_up, sign_in, cancel;
-    JTextField cardt;
-    JPasswordField pint;
+    JTextField cardt, pint;
 
 
     homepage() {
-
 
         setLayout(null);
 
@@ -37,7 +36,7 @@ public class homepage extends JFrame implements ActionListener {
         cardt.setBounds(200,190,175,25);
         add(cardt);
 
-        pint = new JPasswordField();
+        pint = new JTextField();
         pint.setBounds(200, 240, 175, 25);
         add(pint);
 
@@ -67,20 +66,38 @@ public class homepage extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae){
-        if (ae.getSource() == sign_in){
-            setVisible(false);
-            new menu().setVisible(true);
-        }
-        else if (ae.getSource() == cancel){
-            pint.setText("");
-            cardt.setText("");
-        }
-        else if (ae.getSource() == sign_up){
-            setVisible(false);
-            new SignUp().setVisible(true);
-        }
-    }
 
+        try {
+
+            conn c1 = new conn();
+            String a = cardt.getText();
+            String b = pint.getText();
+            String q = "select * from login where cardno = '"+a+"' and pin = '"+b+"'";
+            ResultSet rs = c1.s.executeQuery(q);
+
+            if (ae.getSource() == sign_in){
+                if (rs.next()) {
+                    setVisible(false);
+                    new menu().setVisible(true);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Incorrect card number or pin.");
+                }
+            }
+            else if (ae.getSource() == cancel){
+                pint.setText("");
+                cardt.setText("");
+            }
+            else if (ae.getSource() == sign_up){
+                setVisible(false);
+                new SignUp().setVisible(true);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
     public static void main(String[] args) {
